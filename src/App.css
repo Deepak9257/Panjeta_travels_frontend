@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Lexend";
+  src: url("/fonts/Lexend.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+body{
+  background-color: white;
+  color: white;
+  font-family: "Lexend", sans-serif;
+  user-select: none;
+  
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+
+.btn-hover {
+  @apply hover:bg-white hover:text-[#006EFF] hover:cursor-pointer;
+}
+
+
