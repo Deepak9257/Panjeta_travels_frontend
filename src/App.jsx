@@ -1,14 +1,13 @@
 import "./App.css"
 import Home from "./pages/Home";
-import Rough from "./pages/Rough";
+import AboutUs from "./pages/AboutUs";
 
-const App = ()=>{
 
-  return<>
-     <Home/>
-     
+const App = () => {
 
-      {/* <Rough/> */}
+  return <>
+    <Home/>
+
 
   </>
 }

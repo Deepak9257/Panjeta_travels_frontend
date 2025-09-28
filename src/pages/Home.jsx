@@ -8,6 +8,7 @@ import { useGSAP } from "@gsap/react"
 import MyButton from "../components/MyButton";
 import PhoneIcon from "../icons/PhoneIcon";
 import TickIcon from "../icons/TickIcon";
+import GlobeScene from "./GlobeScene";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -108,7 +109,6 @@ const Home = () => {
 
   return (<>
 
-
     <div className="relative w-full h-screen">
 
       <div className="fixed top-0 z-100 w-full bg-white ">
@@ -175,7 +175,6 @@ const Home = () => {
         </div>
 
       </section>
-
 
       {/* section 2 */}
       <section ref={section2Ref} className=" size-full py-20 px-30 flex justify-between items-center">
@@ -257,11 +256,9 @@ const Home = () => {
 
       </section>
 
-
-      {/* section 3 */}
-      <section ref={section3Ref} className="bg-zinc-700 size-full">
-
-      </section>
+      <div className="size-full relative">
+        <GlobeScene />
+      </div>
 
 
 
