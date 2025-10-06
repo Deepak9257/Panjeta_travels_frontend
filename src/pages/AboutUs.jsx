@@ -4,98 +4,169 @@ import { useEffect, useRef } from "react";
 
 const AboutUs = () => {
 
-  const lineRef = useRef(null);
-  const containerRef = useRef(null);
-  const content1Ref = useRef(null);
-  const content2Ref = useRef(null);
+  const itemRefs = useRef([]);
+  const dateRefs = useRef([]);
+  const contentRefs = useRef([]);
+  const imgRefs = useRef([]);
+  const circleRefs = useRef([]);
 
+  itemRefs.current = [];
+  dateRefs.current = [];
+  contentRefs.current = [];
+  imgRefs.current = [];
+  circleRefs.current = [];
+
+  const addToRefs = (el, refArray) => {
+    if (el && !refArray.current.includes(el)) {
+      refArray.current.push(el);
+    }
+  };
+
+
+  // time line items array 
+  const timelineItems = [
+    {
+      date: 'January 2010',
+      content: ' Tesla introduces its first electric car, the Roadster, showing the world the potential of electric vehicles with a  range of over 200 miles.',
+      imgSrc: 'https://imageio.forbes.com/specials-images/imageserve/6335d236f4ddc58b72592c39//960x0.jpg'
+    },
+
+    {
+      date: 'January 2010',
+      content: ' Tesla introduces its first electric car, the Roadster, showing the world the potential of electric vehicles with a  range of over 200 miles.',
+      imgSrc: 'https://imageio.forbes.com/specials-images/imageserve/6335d236f4ddc58b72592c39//960x0.jpg'
+    },
+
+    {
+      date: 'January 2010',
+      content: ' Tesla introduces its first electric car, the Roadster, showing the world the potential of electric vehicles with a  range of over 200 miles.',
+      imgSrc: 'https://imageio.forbes.com/specials-images/imageserve/6335d236f4ddc58b72592c39//960x0.jpg'
+    },
+
+    {
+      date: 'January 2010',
+      content: ' Tesla introduces its first electric car, the Roadster, showing the world the potential of electric vehicles with a  range of over 200 miles.',
+      imgSrc: 'https://imageio.forbes.com/specials-images/imageserve/6335d236f4ddc58b72592c39//960x0.jpg'
+    }
+
+  ]
+
+  // scroll to top after refresh
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  // animation logic
   useGSAP(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        pin: true,
-        scrub: 1.2,
-        start: "top 0",
-        end: "bottom 0",
-        markers: true,
-        onUpdate: (self) => {
-          const progress = self.progress; // 0 → 1
-          // Content 1: show between 20–40%
-          if (progress == 0.5 && progress < 1) {
-            gsap.to([content1Ref.current, content2Ref.current], {
-              opacity: 1,
-              y: 0,
-              duration: 0.5
-            });
-          } else {
-            gsap.to([content1Ref.current, content2Ref.current], { opacity: 0, y: -150, duration: 0.5 });
-          }
-        }
-      },
-    });
 
-    tl.from(lineRef.current, {
-      y: -5,
-      height: 0,
-      duration: 5,
-      ease: "linear",
+    const handleLoad = () => {
+      animate1();
+    }
+
+    window.addEventListener('load', handleLoad);
+
+    return () => window.removeEventListener('load', handleLoad)
+
+  }, []);
+
+
+  const animate1 = () => {
+    itemRefs.current.forEach((item, i) => {
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: item,
+          scroller: 'body',
+          start: 'top 35%',
+          end: 'bottom 100%',
+          scrub: 1,
+          // markers: true
+        }
+      });
+
+      tl.from(dateRefs.current[i], {
+        top: 50,
+        opacity: 0,
+        duration: 1,
+        ease: 'power1.out'
+      }, 'same')
+
+      tl.from(contentRefs.current[i], {
+        y: 50,
+        opacity: 0,
+        duration: 1.5,
+        ease: 'power1.out'
+      }, 'same')
+
+      tl.from(imgRefs.current[i], {
+        y: 100,
+        opacity: 0,
+        duration: 1.5,
+        ease: 'power1.out'
+      }, 'same')
+
+      tl.from(circleRefs.current[i], {
+        scale: 0,
+        duration: 0.6,
+        ease: 'back.out(1.7)'
+      }, 'same')
     });
-  });
+  }
 
   return (<>
-    <div ref={containerRef} className="bg-zinc-700 w-screen h-screen flex flex-col">
 
-      <h1 className="text-center">About Us</h1>
+    <div className="bg-white w-full h-auto flex flex-col">
 
-      <div className="container flex flex-1 justify-between relative px-40 pt-5 border gap-10">
+      {/* <div className="h-[25vh] w-full z-1 bg-white"></div> */}
 
-        {/* left container */}
+      <h1 className="text-center text-8xl py-10 bg-white text-orange-500 z-1">About Us</h1>
 
-        <div className="border flex flex-col flex-1 justify-center">
+      <div className="timeline_component flex flex-col gap-20   py-20">
 
-          <div ref={content1Ref} className=" border h-[20%]">
-            left content
-          </div>
+        {/* progress bar */}
 
-        </div>
+        <div className="timeline_progress fixed top-0  bg-sky-600 w-1 h-full left-[50%] -translate-x-1/2">
 
-        {/* progress_bar */}
-
-        <div className="border-1 px-5 h-full relative">
-
-          <div className="overflow-hidden size-full rounded-full bg-linear-to-t from-blue-500 to-gray-600 flex justify-center relative">
-
-            <div ref={lineRef} className="w-1.5 rounded-full border-2 border-orange-500 bg-orange-500 "></div>
-
-          </div>
-
-          <div className="size-4 rounded-full bg-orange-500 shadow-2xl absolute top-[50%] left-1/2 -translate-x-1/2">
-          </div>
-
-
+          <div className="timeline_progress-bar fixed h-[50vh] top-0 left-[50%] -translate-x-1/2 rounded  w-[calc(2px+0.2rem)] bg-[linear-gradient(360deg,rgba(255,98,31,1)0%,rgba(252,181,0,1)50%,rgba(255,255,0,1)100%)]"></div>
 
         </div>
 
-        {/* right container */}
-        <div className="border flex flex-col flex-1">
+        {/* timeline items  */}
 
-          <div className=" border h-[15%]">
+        {timelineItems && timelineItems.map((item, idx) => (
+          <div
+            key={idx}
+            ref={el => addToRefs(el, itemRefs)}
+            className={`timeline_item flex gap-20 text-2xl relative ${idx % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}
+          >
+            <div className={`timeline_left  flex-1 relative flex ${idx % 2 === 0 ? "justify-end" : "justify-start"} items-center border p-5`}>
+              <div className="timeline_date-text overflow-hidden text-black sticky top-[50vh] ">
+                <span ref={el => addToRefs(el, dateRefs)} className="relative">{item.date}</span>
+              </div>
+            </div>
 
+            <div ref={el => addToRefs(el, circleRefs)} className="timeline_circle size-4 bg-orange-500 rounded-full absolute left-1/2 -translate-x-1/2 top-[48%]"></div>
+
+            <div className="timeline_right flex-1 p-5 flex flex-col items-center gap-10 border ">
+              <div className="timeline_text overflow-hidden w-[480px]">
+                <span ref={el => addToRefs(el, contentRefs)} className="relative text-black">
+                  {item.content}
+                </span>
+              </div>
+              <div className="timeline_image-wrapper overflow-hidden ">
+                <img ref={el => addToRefs(el, imgRefs)} className="relative rounded-2xl" src={item.imgSrc} width="480" alt="Tesla Roadster" />
+              </div>
+            </div>
           </div>
+        ))}
 
-          <div ref={content2Ref} className=" border h-[20%]">
-            right content 2
-          </div>
-
-        </div>
 
       </div>
 
+      <div className="h-[25vh] w-full black bg-[linear-gradient(180deg,rgba(115,115,115,1)0%,rgba(26,26,26,1)50%,rgba(0,0,0,1)100%)] z-1"></div>
+
     </div>
+
 
   </>)
 }

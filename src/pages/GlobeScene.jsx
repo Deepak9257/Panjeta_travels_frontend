@@ -15,11 +15,11 @@ export default function GlobeScene() {
   const addressRef = useRef();
   const meshRef = useRef();
 
+  // globe model and it's animation logic
+
   function Globe() {
-
+    const { camera } = useThree();
     useEffect(() => {
-
-      window.scrollTo(0, 0)
 
       if (!meshRef.current) return;
 
@@ -36,62 +36,61 @@ export default function GlobeScene() {
         scrollTrigger: {
           trigger: triggerRef.current,
           start: "top 0",
-          end: "bottom -60%",
-          markers: true,
-          pin:true,
-          scrub: 3,
+          end: "bottom 0",
+          // markers: true,
+          pin: true,
+          scrub: 2,
         },
       })
 
       // globe rotation animation
-
       tl.to(meshRef.current.rotation, {
         y: -(THREE.MathUtils.degToRad(170)),
-        duration: 5,
-        ease: "linear",
-      })
+        duration: 2,
+        ease: "none",
+      },'same')
 
-      tl.to(meshRef.current.material, {
-        opacity: 0.9,
-        ease: 'linear'
+      // zoom in effect animation
+      tl.to(camera.position, {
+        z: 2.5,
+        y: 0.3,
+        duration: 2,
+        ease:'none'
+      },'same')
 
-      });
 
       // location img animation 1
       tl.to(mapRef.current, {
         opacity: 1,
-        scale: 2,
-        duration: 2.3,
-        ease: 'linear'
+        scale: 1.5,
+        duration: 2,
+        ease: 'power1.out'
       });
 
       // location img animation 2
 
       tl.to(mapRef2.current, {
         opacity: 1,
-        scale: 2.2,
-        duration: 3,
-        ease: 'linear'
+        scale: 1.5,
+        duration: 2,
+        ease: 'power1.out'
 
-      }, 'map');
+      }, 'two');
 
-      tl.from(addressRef.current, {
-        opacity: 0,
-        y: -10,
-        duration:1,
-        ease: 'back.in'
-      }, 'map+=1.5')
+      tl.to(addressRef.current, {
+        opacity:1,
+        y: -100,
+        duration: 1,
+        ease: 'power1.out'
 
-      return () => {
-        window.scrollTo(0, 0);
-        tl.kill();
-      }
+      }, 'two');
+
 
     }, []);
 
     return (
       <mesh ref={meshRef} >
-        <sphereGeometry args={[2, 64, 64]} />
+        <sphereGeometry args={[2, 32, 32]} />
         <meshPhongMaterial
 
           map={new THREE.TextureLoader().load("/textures/earthMap.jpg")}
@@ -100,68 +99,64 @@ export default function GlobeScene() {
       </mesh>
     );
   }
-  // zoom in effect animation logic
-  const CameraAnimation = () => {
-    const { camera } = useThree();
 
-    gsap.to(camera.position, {
-      z: 2.5,
-      y: 0.3,
-      duration: 2,
-      scrollTrigger: {
-        trigger: triggerRef.current,
-        scrub: 1,
-        // markers: true,
-        start: 'top 0',
-        end: 'bottom 0',
-
-      }
-
-    })
-
-    return null;
-  }
 
 
   return (<>
     {/* globe */}
-    <div ref={triggerRef} className="w-screen bg-[url('/images/stars.webp')] bg-scroll bg-cover bg-center h-screen sticky top-0 bg-black ">
+    <div ref={triggerRef} className="w-screen bg-[url('/images/stars.webp')] bg-scroll bg-cover bg-center h-screen bg-black relative ">
+
       <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
 
         <ambientLight intensity={0.2} />
 
         <directionalLight position={[-10, 20, 5]} intensity={8} />
 
-        <CameraAnimation />
+       
 
         <Globe />
 
       </Canvas>
+
+
+      {/* location img 1 */}
+      <div
+        ref={mapRef}
+        className="absolute top-0 w-screen h-screen opacity-0.5"
+      >
+        <img src="/images/location_img_1.png" alt="location_img" className="size-full -left-[5%]  object-cover" />
+
+      </div>
+
+
+      {/* location img 2 */}
+      <div
+        ref={mapRef2}
+        className="absolute top-0 w-screen h-screen opacity-0.5 overflow-hidden"
+      >
+        <img src="/images/location_img_2.png" alt="location_img" className="size-full -left-[2.5%]" />
+
+
+      </div>
+
+      <div
+        ref={addressRef}
+        className="absolute top-[25vh] left-[5vw] opacity-0.5"
+      >
+        <img src="/images/address_img.png" alt="location_img" className="size-full" />
+
+      </div>
+
+
+
     </div>
 
-    {/* location img 1 */}
-    <div
-      ref={mapRef}
-      className="fixed top-0 left-0 w-screen h-screen opacity-0.5"
-    >
-      <img src="/images/location_img_1.png" alt="location_img" className="size-full fixed -left-[5%]  object-cover" />
 
-    </div>
 
-    {/* location img 2 */}
-    <div
-      ref={mapRef2}
-      className="fixed top-0 left-0 w-screen h-screen opacity-0.5"
-    >
-      <img src="/images/location_img_2.png" alt="location_img" className="size-full fixed -left-[2.5%]" />
 
-    </div>
 
-    {/* address img div  */}
 
-    <div ref={addressRef} className="fixed top-15 left-5 ">
-      <img src="/images/address_img.png" alt="company_address" className="size-full rounded" />
-    </div>
+
   </>
 
 
