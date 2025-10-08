@@ -51,11 +51,6 @@ const AboutUs = () => {
 
   ]
 
-  // scroll to top after refresh
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   // animation logic
   useGSAP(() => {
 
@@ -163,7 +158,9 @@ const AboutUs = () => {
 
       </div>
 
-      <div className="h-[25vh] w-full black bg-[linear-gradient(180deg,rgba(115,115,115,1)0%,rgba(26,26,26,1)50%,rgba(0,0,0,1)100%)] z-1"></div>
+        <div className="h-[25vh] w-full black bg-[linear-gradient(180deg,rgba(115,115,115,1)0%,rgba(26,26,26,1)50%,rgba(0,0,0,1)100%)] z-1"></div>
+
+
 
     </div>
 

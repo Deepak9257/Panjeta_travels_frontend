@@ -2,10 +2,11 @@ import "./App.css"
 import Home from "./pages/Home";
 
 import Lenis from 'lenis'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const App = () => {
 
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     // 1️⃣ Initialize Lenis
@@ -25,9 +26,23 @@ const App = () => {
 
     requestAnimationFrame(raf);
 
+    // loading effect
+    const handleLoading = () => {
+      setLoading(false)
+    }
+
+    // if (document.readyState === 'complete') {
+    //   setLoading(false)
+    // } else {
+    //   window.addEventListener('load', handleLoading)
+
+    // }
+
     // 3️⃣ Cleanup
     return () => {
       lenis.destroy();
+      window.removeEventListener('load', handleLoading)
+
     };
   }, []);
 
@@ -35,7 +50,10 @@ const App = () => {
 
 
 
-    <Home />
+    {loading
+      ? <div className="w-screen h-screen bg-zinc-500">Loading...</div>
+      : <Home />
+    }
 
 
 

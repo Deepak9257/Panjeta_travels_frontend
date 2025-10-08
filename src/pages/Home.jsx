@@ -23,7 +23,6 @@ const Home = () => {
 
   return (<>
 
-
     <div className="fixed top-0 z-100 w-full bg-white/30 backdrop-blur-[30px]">
       <Nav />
     </div>
@@ -34,29 +33,17 @@ const Home = () => {
       <Section2 />
     </div>
 
-    
     <div>
       <AboutUs />
     </div>
 
-
-    <div className="relative py-20 bg-black">
+    <div className="relative bg-black">
       <GlobeScene />
     </div>
-
 
     {/* next section */}
 
     <section className="bg-zinc-500 w-screen h-screen relative"></section>
-
-
-
-
-
-
-
-
-
 
   </>)
 };
