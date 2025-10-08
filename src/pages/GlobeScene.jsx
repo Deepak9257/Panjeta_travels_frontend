@@ -39,7 +39,7 @@ export default function GlobeScene() {
             trigger: triggerRef.current,
             start: "top 0",
             end: "bottom -50%",
-            markers: true,
+            // markers: true,
             pin: true,
             scrub: 2,
           },
